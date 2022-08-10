@@ -13,8 +13,8 @@ def homePage(request):
     return render(request, 'home.html', context)
 
 
-def productPage(request, product):
-    product = get_object_or_404(Item, slug=product)
+def productPage(request, slug):
+    product = get_object_or_404(Item, slug=slug)
 
     context = {
         'product': product
@@ -32,12 +32,13 @@ def add_to_cart(request, slug):
         if order.items.filter(item__slug=item.slug).exists(): 
             order_item.quantity += 1
             order_item.save()
+        else:
+            order.items.add(order_item) 
     else:
         ordered_date = timezone.now()
         order = Order.objects.create(user=request.user, ordered_date = ordered_date)
         order.items.add(order_item)
-        return redirect ('ecommerce:product_page', slug=slug)
-    return render(request)
+    return redirect ('ecommerce:product_page', slug=slug)
 
 def checkout(request):
     return render(request, 'checkout_page.html')
