@@ -3,7 +3,7 @@
     <div class="container">
 
       <!-- Brand -->
-      <a class="navbar-brand waves-effect" href="#" >
+      <a class="navbar-brand waves-effect" href="{% url 'ecommerce:home_page' %}" >
         <strong class="blue-text">Django Ecommerce</strong>
       </a>
 
@@ -18,41 +18,35 @@
 
         <!-- Left -->
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link waves-effect" href="{% url 'ecommerce:home_page' %}">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'ecommerce:checkout_page' %}" >checkout</a>
-          </li>
         </ul>
 
         <!-- Right -->
         <ul class="navbar-nav nav-flex-icons">
-          <li class="nav-item">
-            <a class="nav-link waves-effect">
-              <span class="badge red z-depth-1 mr-1"> 1 </span>
-              <i class="fas fa-shopping-cart"></i>
-              <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link waves-effect" target="_blank">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link waves-effect" target="_blank">
-              <i class="fab fa-twitter"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link border border-light rounded waves-effect"
-              target="_blank">
-              <i class="fab fa-github mr-2"></i>MDB GitHub
-            </a>
-          </li>
+          {% if request.user.is_authenticated%}
+            <li class="nav-item">
+              <a class="nav-link waves-effect">
+                <span class="badge red z-depth-1 mr-1"> 1 </span>
+                <i class="fas fa-shopping-cart"></i>
+                <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href='{% url "account_logout" %}' class="nav-link waves-effect">
+                <span>logout</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a href="{% url 'account_login' %}" class="nav-link waves-effect" >
+                <span>Login</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'account_signup' %}" class="nav-link border border-light rounded waves-effect">
+                <span>signup</span>
+              </a>
+            </li>
+          {% endif %}
         </ul>
 
       </div>
